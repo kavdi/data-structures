@@ -1,5 +1,5 @@
 # Data Structures
-This file holds sample code for a number of classic data structures impemented in python.
+This file holds sample code for a number of classic data structures implemented in python.
 
 **Authors:** Kavdi Hodgson and Megan Flood
 
