@@ -109,3 +109,7 @@ class BST(object):
             return self.depth(self.root.right)
         else:
             return self.depth(self.root.right) - self.depth(self.root.left)
+
+
+if __name__ == '__main__':
+    import timeit
