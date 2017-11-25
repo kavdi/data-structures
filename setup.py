@@ -13,7 +13,8 @@ setup(
         'binheap',
         'priorityq',
         'graph_1',
-        'weight_graph'
+        'weight_graph',
+        'bst'
     ],
     authors='Megan, Kavdi',
     author_email='kavdyjh@gmail.com',
