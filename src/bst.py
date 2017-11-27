@@ -110,6 +110,57 @@ class BST(object):
         else:
             return self.depth(self.root.right) - self.depth(self.root.left)
 
+    def in_order(self):
+        """Traverse the bst and yield node values in order."""
+        if self.root is None:
+            raise ValueError("Tree is empty.")
+        curr = self.root
+        order = []
+        while curr or order:
+            if curr:
+                order.append(curr)
+                curr = curr.left
+            else:
+                curr = order.pop()
+                yield curr.value
+                curr = curr.right
+
+    def pre_order(self):
+        """Traverse the bst and yield node values in pre order."""
+        if self.root is None:
+            raise ValueError("Tree is empty.")
+        curr = self.root
+        order = []
+        while curr or order:
+            if curr:
+                yield curr.value
+                if curr.right:
+                    order.append(curr.right)
+                curr = curr.left
+            else:
+                curr = order.pop()
+
+    def post_order(self):
+        """Travers the bst and yield node values in post order."""
+        if self.root is None:
+            raise ValueError("Tree is empty.")
+        curr = self.root
+        child = None
+        order = []
+        while curr or order:
+            if curr:
+                order.append(curr)
+                curr = curr.left
+            else:
+                if order[-1].right and order[-1].right is not child:
+                    curr = order[-1].right
+                else:
+                    child = order.pop()
+                    yield child.value
+
+
+
+
 
 if __name__ == '__main__':
     import timeit
