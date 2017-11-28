@@ -158,6 +158,18 @@ class BST(object):
                     child = order.pop()
                     yield child.value
 
+    def breadth_first(self):
+        """Traverse the bst breadth first."""
+        if self.root is None:
+            raise ValueError("Tree is empty.")
+        order = [self.root]
+        while order:
+            curr = order.pop(0)
+            if curr.left:
+                order.append(curr.left)
+            if curr.right:
+                order.append(curr.right)
+            yield curr.value
 
 
 
