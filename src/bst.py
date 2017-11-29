@@ -52,19 +52,6 @@ class BST(object):
                     self._size += 1
                     break
 
-    def search(self, value):
-        """Search for value in tree, return node if present, none if not."""
-        if self.root is None or not isinstance(value, (int, float)):
-            return
-
-        curr = self.root
-        while curr:
-            if value == curr.value:
-                return curr
-            elif value > curr.value:
-                curr = curr.right
-            elif value < curr.value:
-                curr = curr.left
 
     def size(self):
         """Get number of all nodes in bst."""
@@ -171,6 +158,66 @@ class BST(object):
                 order.append(curr.right)
             yield curr.value
 
+    def delete(self, value, root=None):
+        """Delete node from bst."""
+        if self.root is None:
+            return
+        root = search(value)
+        if root.left is None and root.right is None:
+            root = None
+            return None
+        elif root.right is not None:
+            new = root.right
+            if new.left:
+                new = new.left
+            else:
+                if new.right is None:
+                    temp = new
+                    new = None
+                    root.value = temp.value
+                    self._size -= 1
+                    return None
+                else:
+                    child = new.right
+                    temp = new
+                    root.value = temp.value
+                    temp.value = child.value
+                    child = None
+                    self._size -= 1
+                    return None
+        elif root.left is not None:
+            new = root.left
+            if new.right:
+                new = new.right
+            else:
+                if new.left is None:
+                    temp = new
+                    new = None
+                    root.value = temp.value
+                    self._size -= 1
+                    return None
+                else:
+                    child = new.left
+                    temp = new
+                    root.value = temp.value
+                    temp.value = child.value
+                    child = None
+                    self._size -= 1
+                    return None
+
+    def search(self, value):
+        """Search for value in tree, return node if present, none if not."""
+        if self.root is None or not isinstance(value, (int, float)):
+            return
+
+        curr = self.root
+        while curr:
+            if value == curr.value:
+                return curr
+            elif value > curr.value:
+                curr = curr.right
+            elif value < curr.value:
+                curr = curr.left
 
 
 
