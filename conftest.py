@@ -160,3 +160,11 @@ def complex_weight_graph():
     g.add_edge(3, 4, 9)
     g.add_edge(4, 3, 9)
     return g
+
+
+@pytest.fixture
+def filled_bst():
+    """Create a full bst."""
+    from bst import BST
+    t = BST([13, 10, 15, 14, 9, 7, 2, 4, 5, 12, 1, 6, 19, 16, 24])
+    return t
