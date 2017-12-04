@@ -52,26 +52,36 @@ class BST(object):
                     self._size += 1
                     break
 
+    def search(self, value):
+        """Search for value in tree, return node if present, none if not."""
+        if self.root is None or not isinstance(value, (int, float)):
+            return
+
+        curr = self.root
+        while curr:
+            if value == curr.value:
+                return curr
+            elif value > curr.value:
+                curr = curr.right
+            elif value < curr.value:
+                curr = curr.left
 
     def size(self):
         """Get number of all nodes in bst."""
         return self._size
 
-    def depth(self, root=None):
+    def depth(self, root):
         """Get depth of levels in bst."""
         if root is None:
-            if self.root is None:
-                return 0
-            else:
-                root = self.root
-        if not root.right and not root.left:
             return 0
+        elif root == self.root and not root.left and not root.right:
+            return 0
+        elif not root.left and not root.right:
+            return 1
         elif root.right and not root.left:
             return self.depth(root.right) + 1
         elif root.left and not root.right:
             return self.depth(root.left) + 1
-        else:
-            return max(self.depth(root.right), self.depth(root.left)) + 1
 
     def contains(self, value):
         """Search for value in bst, return true if there."""
@@ -81,21 +91,17 @@ class BST(object):
         else:
             return True
 
-    def balance(self):
+    def balance(self, node):
         """Get the depth of left and right side of bst.
 
         Return a possitive int if left side is larger, negative int if right side is larger.
         """
-        if self.root is None:
+        if node is None:
             return 'Tree is empty.'
-        elif not self.root.left and not self.root.right:
+        if not node.left and not node.right:
             return 0
-        elif self.root.left and not self.root.right:
-            return self.depth(self.root.left)
-        elif self.root.right and not self.root.left:
-            return self.depth(self.root.right)
         else:
-            return self.depth(self.root.right) - self.depth(self.root.left)
+            return self.depth(node.left) - self.depth(node.right)
 
     def in_order(self):
         """Traverse the bst and yield node values in order."""
@@ -128,7 +134,7 @@ class BST(object):
                 curr = order.pop()
 
     def post_order(self):
-        """Travers the bst and yield node values in post order."""
+        """Traverse the bst and yield node values in post order."""
         if self.root is None:
             raise ValueError("Tree is empty.")
         curr = self.root
@@ -162,7 +168,7 @@ class BST(object):
         """Delete node from bst."""
         if self.root is None:
             return
-        root = search(value)
+        root = self.search(value)
         if root.left is None and root.right is None:
             root = None
             return None
@@ -174,14 +180,13 @@ class BST(object):
                 if new.right is None:
                     temp = new
                     new = None
-                    root.value = temp.value
+                    root.right, root.left, root = temp.right, temp.left, temp
                     self._size -= 1
                     return None
                 else:
                     child = new.right
                     temp = new
-                    root.value = temp.value
-                    temp.value = child.value
+                    root.right, root.left, root, temp = temp.right, temp.left, temp, child
                     child = None
                     self._size -= 1
                     return None
@@ -193,31 +198,19 @@ class BST(object):
                 if new.left is None:
                     temp = new
                     new = None
-                    root.value = temp.value
+                    root.right, root.left, root = temp.right, temp.left, temp
                     self._size -= 1
                     return None
                 else:
                     child = new.left
                     temp = new
-                    root.value = temp.value
-                    temp.value = child.value
+                    root.right, root.left, root, temp = temp.right, temp.left, temp, child
                     child = None
                     self._size -= 1
                     return None
 
-    def search(self, value):
-        """Search for value in tree, return node if present, none if not."""
-        if self.root is None or not isinstance(value, (int, float)):
-            return
-
-        curr = self.root
-        while curr:
-            if value == curr.value:
-                return curr
-            elif value > curr.value:
-                curr = curr.right
-            elif value < curr.value:
-                curr = curr.left
+    def balance_tree(self):
+        """Balance bst left and right sides are close to even as possible."""
 
 
 
