@@ -70,18 +70,20 @@ class BST(object):
         """Get number of all nodes in bst."""
         return self._size
 
-    def depth(self, root):
-        """Get depth of levels in bst."""
-        if root is None:
-            return 0
-        elif root == self.root and not root.left and not root.right:
-            return 0
-        elif not root.left and not root.right:
-            return 1
-        elif root.right and not root.left:
-            return self.depth(root.right) + 1
-        elif root.left and not root.right:
-            return self.depth(root.left) + 1
+    def depth(self):
+        """Get the depth of bst."""
+        if not self.root:
+            return "Tree is empty."
+        else:
+            return self._depth(self.root, -1)
+
+    def _depth(self, curr_node, curr_depth):
+        """Recurse through bst until depth is found."""
+        if not curr_node:
+            return curr_depth
+        left_depth = self._depth(curr_node.left, curr_depth + 1)
+        right_depth = self._depth(curr_node.right, curr_depth + 1)
+        return max(left_depth, right_depth)
 
     def contains(self, value):
         """Search for value in bst, return true if there."""
@@ -211,6 +213,19 @@ class BST(object):
 
     def balance_tree(self):
         """Balance bst left and right sides are close to even as possible."""
+        pass
+
+    def create_unbalanced_9_node(self):
+        """Create unblanced tree with 7 nodes."""
+        self.insert(5)
+        self.insert(2)
+        self.insert(6)
+        self.insert(4)
+        self.insert(7)
+        self.insert(1)
+        self.insert(9)
+        self.insert(3)
+        self.insert(8)
 
 
 
