@@ -4,11 +4,12 @@
 class Node(object):
     """Structure for a node object."""
 
-    def __init__(self, value, left=None, right=None):
+    def __init__(self, value):
         """Initiate a node object."""
         self.value = value
-        self.left = left
-        self.right = right
+        self.parent = None
+        self.left = None
+        self.right = None
 
 
 class BST(object):
@@ -42,14 +43,18 @@ class BST(object):
                     curr = curr.right
                 else:
                     curr.right = Node(value)
+                    curr.right.parent = curr
                     self._size += 1
+                    self._balance(curr.right)
                     break
             elif value < curr.value:
                 if curr.left:
                     curr = curr.left
                 else:
                     curr.left = Node(value)
+                    curr.left.parent = curr
                     self._size += 1
+                    self._balance(curr.left)
                     break
 
     def search(self, value):
@@ -70,20 +75,21 @@ class BST(object):
         """Get number of all nodes in bst."""
         return self._size
 
-    def depth(self):
-        """Get the depth of bst."""
-        if not self.root:
-            return "Tree is empty."
+    def depth(self, root=None):
+        """Get depth of levels in bst."""
+        if root is None:
+            if self.root is None:
+                return 0
+            else:
+                root = self.root
+        if not root.right and not root.left:
+            return 0
+        elif root.right and not root.left:
+            return self.depth(root.right) - 1
+        elif root.left and not root.right:
+            return self.depth(root.left) + 1
         else:
-            return self._depth(self.root, -1)
-
-    def _depth(self, curr_node, curr_depth):
-        """Recurse through bst until depth is found."""
-        if not curr_node:
-            return curr_depth
-        left_depth = self._depth(curr_node.left, curr_depth + 1)
-        right_depth = self._depth(curr_node.right, curr_depth + 1)
-        return max(left_depth, right_depth)
+            return max(abs(self.depth(root.right)), abs(self.depth(root.left))) + 1
 
     def contains(self, value):
         """Search for value in bst, return true if there."""
@@ -93,17 +99,22 @@ class BST(object):
         else:
             return True
 
-    def balance(self, node):
+    def balance(self, node=None):
         """Get the depth of left and right side of bst.
-
         Return a possitive int if left side is larger, negative int if right side is larger.
         """
+        if not node:
+            node = self.root
         if node is None:
-            return 'Tree is empty.'
-        if not node.left and not node.right:
+                return 'Tree is empty.'
+        elif not node.left and not node.right:
             return 0
+        elif node.left and not node.right:
+            return self.depth(node)
+        elif node.right and not node.left:
+            return self.depth(node)
         else:
-            return self.depth(node.left) - self.depth(node.right)
+            return self.depth(node.left) + self.depth(node.right)
 
     def in_order(self):
         """Traverse the bst and yield node values in order."""
@@ -211,9 +222,61 @@ class BST(object):
                     self._size -= 1
                     return None
 
-    def balance_tree(self):
-        """Balance bst left and right sides are close to even as possible."""
-        pass
+    def _right_rotation(self, node):
+        """Opperate a right rotation to balance bst."""
+        if node.parent == self.root:
+            node.right = node.parent
+            node.right.parent = node
+            node.right.left = None
+            self.root = node
+            node.parent is None
+        else:
+            node.right = node.parent
+            if node.parent.parent.left == node.parent:
+                node.parent.parent.left = node
+            else:
+                node.parent.parent.right = node
+            node.parent = node.parent.parent
+            node.right.parent = node
+            node.right.left = None
+
+    def _left_rotation(self, node):
+        """Opperate a left rotation to balance bst."""
+        if node.parent == self.root:
+            node.left = node.parent
+            node.left.parent = node
+            node.left.right = None
+            self.root = node
+            node.parent = None
+        else:
+            node.left = node.parent
+            if node.parent.parent.right == node.parent:
+                node.parent.parent.right = node
+            else:
+                node.parent.parent.left = node
+            node.parent = node.parent.parent
+            node.left.parent = node
+            node.left.right = None
+
+    def _balance(self, node):
+        """Balance bst."""
+        while node:
+            if self.balance(node) > 1:
+                node = node.left
+                if self.balance(node) == 1:
+                    self._right_rotation(node)
+                else:
+                    node = node.left.right
+                    self._left_rotation(node)
+            elif self.balance(node) < -1:
+                node = node.right
+                if self.balance(node) == -1:
+                    self._left_rotation(node)
+                else:
+                    node = node.right.left
+                    self._right_rotation(node)
+            else:
+                node = node.parent
 
     def create_unbalanced_9_node(self):
         """Create unblanced tree with 7 nodes."""
