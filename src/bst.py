@@ -228,8 +228,8 @@ class BST(object):
             node.right = node.parent
             node.right.parent = node
             node.right.left = None
+            node.parent = None
             self.root = node
-            node.parent is None
         else:
             node.right = node.parent
             if node.parent.parent.left == node.parent:
@@ -246,8 +246,8 @@ class BST(object):
             node.left = node.parent
             node.left.parent = node
             node.left.right = None
-            self.root = node
             node.parent = None
+            self.root = node
         else:
             node.left = node.parent
             if node.parent.parent.right == node.parent:
@@ -261,6 +261,7 @@ class BST(object):
     def _balance(self, node):
         """Balance bst."""
         while node:
+            # import pdb; pdb.set_trace()
             if self.balance(node) > 1:
                 node = node.left
                 if self.balance(node) == 1:
