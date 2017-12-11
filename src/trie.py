@@ -60,4 +60,3 @@ class Trie(object):
         """Remove string from trie tree."""
         if not isinstance(string, str):
             raise TypeError('Must provide a string.')
-        
