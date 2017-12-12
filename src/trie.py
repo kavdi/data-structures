@@ -23,7 +23,8 @@ class Trie(object):
             if not isinstance(itr, (list, tuple, set)):
                 raise TypeError('Must use itterable of strings.')
             else:
-                self.insert(itr)
+                for word in itr:
+                    self.insert(word)
 
     def insert(self, string):
         """Insert words into trie tree. Dubplicate will be ignored."""
@@ -70,4 +71,8 @@ class Trie(object):
             if i in step.children:
                 step = step.children[i]
         if step.end is True:
-        
+            while len(step.children) < 2:
+                last = step
+                step = step.parent
+            step.children.pop(last.value)
+            return
