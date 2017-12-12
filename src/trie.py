@@ -74,5 +74,7 @@ class Trie(object):
             while len(step.children) < 2:
                 last = step
                 step = step.parent
+                if step.value == '*':
+                    step.children.pop(last.value)
             step.children.pop(last.value)
             return
