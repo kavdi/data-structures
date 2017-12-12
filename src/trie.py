@@ -76,5 +76,6 @@ class Trie(object):
                 step = step.parent
                 if step.value == '*':
                     step.children.pop(last.value)
+                    return
             step.children.pop(last.value)
             return
