@@ -4,10 +4,10 @@
 def merge_sort(nums):
     """Merge list by merge sort."""
     half = int(len(nums) // 2)
-    if len(nums == 1):
+    if len(nums) == 1:
         return nums
 
-    if len(nums == 2):
+    if len(nums) == 2:
         if nums[0] > nums[1]:
             nums[0], nums[1] = nums[1], nums[0]
         return nums
