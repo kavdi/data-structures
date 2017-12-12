@@ -8,6 +8,7 @@ class Node(object):
         """Initiate Node instance."""
         self.value = value
         self.children = {}
+        self.parent = None
         self.end = False
 
 
@@ -18,10 +19,11 @@ class Trie(object):
         """Initiate Trie tree."""
         self.root = Node('*')
         self._size = 0
-        if itr and not isinstance(itr, (list, tuple, set)):
-            raise ValueError('Must use itterable of strings.')
-        else:
-            self.insert(itr)
+        if itr:
+            if not isinstance(itr, (list, tuple, set)):
+                raise TypeError('Must use itterable of strings.')
+            else:
+                self.insert(itr)
 
     def insert(self, string):
         """Insert words into trie tree. Dubplicate will be ignored."""
@@ -33,6 +35,7 @@ class Trie(object):
                 step = step.children[i]
             else:
                 step.children[i] = Node(i)
+                step.children[i].parent = step
                 step = step.children[i]
         step.end = True
         self._size += 1
@@ -60,3 +63,11 @@ class Trie(object):
         """Remove string from trie tree."""
         if not isinstance(string, str):
             raise TypeError('Must provide a string.')
+        if not self.contains(string):
+            raise ValueError('Word does not exist in tree.')
+        step = self.root
+        for i in string:
+            if i in step.children:
+                step = step.children[i]
+        if step.end is True:
+        
