@@ -81,7 +81,7 @@ def test_contains_doesnt_find_only_word_if_similar(empty_trie):
 
 def test_contains_finds_one_of_3_similar_words(trie_3):
     """Trie with 3 similar words finds all 3 words."""
-    words = ['pototo', 'potatoes', 'pot']
+    words = ['potato', 'potatoes', 'pot']
     for word in words:
         assert trie_3.contains(word)
 
