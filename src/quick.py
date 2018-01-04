@@ -2,4 +2,10 @@
 
 
 def quick_sort(arr):
-    """Sort items from lowest to highest value with quicksort."""
+    """Sort array of numbers with quicksort."""
+    if len(arr) == 1:
+        return arr
+    if len(arr) > 1:
+        pivot = arr[0]
+        left = 1
+        right = len(arr) - 1
