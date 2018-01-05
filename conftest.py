@@ -168,3 +168,19 @@ def filled_bst():
     from bst import BST
     t = BST([13, 10, 15, 14, 9, 7, 2, 4, 5, 12, 1, 6, 19, 16, 24])
     return t
+
+
+@pytest.fixture
+def empty_trie():
+    """Create trie with root node."""
+    from trie import Trie
+    t = Trie()
+    return t
+
+
+@pytest.fixture
+def trie_3():
+    """Create trie with 3 words passed in iterable."""
+    from trie import Trie
+    t = Trie(['potato', 'potatoes', 'pot'])
+    return t

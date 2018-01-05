@@ -70,7 +70,7 @@ def test_insert_value_into_emtpy_bst_creates_root_node_with_value_inerted():
 def test_insert_value_already_in_bst_raises_value_error(filled_bst):
     """Test that a value error is raised when inserting a value already in tree."""
     with pytest.raises(ValueError):
-        filled_bst.insert(13)
+        filled_bst.insert(9)
 
 
 def test_insert_value_less_than_root_value_creates_left_node_child():
@@ -153,27 +153,27 @@ def test_depth_returns_0_when_bst_is_empty():
     """Test that empty bst returns none when checked for depth."""
     from bst import BST
     t = BST()
-    assert t.depth() == 0 
+    assert t.depth(t.root) == 0
 
 
 def test_depth_returns_0_when_one_node_in_bst():
     """Test that depth returns 0 when only one node in bst."""
     from bst import BST
     t = BST([1])
-    assert t.depth() == 0
+    assert t.depth(t.root) == 0
 
 
 def test_depth_returns_1_when_at_most_two_nodes_in_bst():
     """Test that depth returns one when two nodes in bst."""
     from bst import BST
     t = BST([4, 3])
-    assert t.depth() == 1
+    assert t.depth(t.root) == 1
 
 
 def test_depth_gets_correct_depth_of_tree(filled_bst):
     """Test that depth returns correct depth of tree when nodes are added."""
     t = filled_bst
-    assert t.depth() == 7
+    assert t.depth(t.root) == 7
 
 
 def test_contains_returns_false_when_bst_empty():
