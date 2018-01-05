@@ -104,7 +104,7 @@ def test_size_method_returns_actual_size(empty_trie):
     for i in range(1, 51):
         empty_trie.insert(FAKE.word())
         assert empty_trie.size() == i
-
+        
 
 def test_remove_not_string_raises_error(trie_3):
     """A non string passed to remove should raise type error."""
