@@ -1,7 +1,9 @@
 """Test the Trie."""
-import pytest
-from faker import Faker
 from trie import Trie
+from faker import Faker
+import pytest
+
+
 FAKE = Faker()
 
 
