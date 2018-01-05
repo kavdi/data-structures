@@ -225,57 +225,62 @@ class BST(object):
     def _right_rotation(self, node):
         """Opperate a right rotation to balance bst."""
         if node.parent == self.root:
+            self.root.left = node.right
+            if self.root.left:
+                self.root.left.parent = self.root
             node.right = node.parent
             node.right.parent = node
-            node.right.left = None
             node.parent = None
             self.root = node
         else:
-            node.right = node.parent
+            node.parent.left = node.right
             if node.parent.parent.left == node.parent:
                 node.parent.parent.left = node
             else:
                 node.parent.parent.right = node
+            if node.right:
+                node.right.parent = node.parent
+            node.right = node.parent
             node.parent = node.parent.parent
-            node.right.parent = node
-            node.right.left = None
 
     def _left_rotation(self, node):
         """Opperate a left rotation to balance bst."""
         if node.parent == self.root:
+            self.root.right = node.left
+            if self.root.right:
+                self.root.right.parent = self.root
             node.left = node.parent
             node.left.parent = node
-            node.left.right = None
             node.parent = None
             self.root = node
         else:
-            node.left = node.parent
+            node.parent.right = node.left
             if node.parent.parent.right == node.parent:
                 node.parent.parent.right = node
             else:
                 node.parent.parent.left = node
+            if node.left:
+                node.left.parent = node.parent
+            node.left = node.parent
             node.parent = node.parent.parent
-            node.left.parent = node
-            node.left.right = None
 
     def _balance(self, node):
         """Balance bst."""
         while node:
-            # import pdb; pdb.set_trace()
             if self.balance(node) > 1:
-                node = node.left
-                if self.balance(node) == 1:
-                    self._right_rotation(node)
+                if self.balance(node.left) >= 0:
+                    self._right_rotation(node.left)
                 else:
                     node = node.left.right
                     self._left_rotation(node)
+                    self._right_rotation(node)
             elif self.balance(node) < -1:
-                node = node.right
-                if self.balance(node) == -1:
-                    self._left_rotation(node)
+                if self.balance(node.right) <= 0:
+                    self._left_rotation(node.right)
                 else:
                     node = node.right.left
                     self._right_rotation(node)
+                    self._left_rotation(node)
             else:
                 node = node.parent
 
