@@ -74,5 +74,29 @@ class Trie(object):
             while len(step.children) < 2:
                 last = step
                 step = step.parent
+                if step.value == '*':
+                    step.children.pop(last.value)
+                    return
             step.children.pop(last.value)
             return
+
+    def trie_traversal(self, string=''):
+            """."""
+            if not isinstance(string, str):
+                raise TypeError('Must provide a string.')
+            string = list(string)
+            output = []
+            step = self.root
+            for i in string:
+                if i in step.children:
+                    step = step.children[i]
+                else:
+                    return
+            while True:
+                if len(list(step.children.keys())) >= 1:
+                    for key in step.children:
+                        output.append(step.children[key])
+                if len(output) == 0:
+                    break
+                step = output.pop(0)
+                yield step.i

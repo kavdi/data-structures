@@ -1,7 +1,8 @@
 """Test the Trie."""
-import pytest
-from faker import Faker
 from trie import Trie
+from faker import Faker
+import pytest
+
 
 FAKE = Faker()
 
@@ -86,6 +87,13 @@ def test_contains_finds_one_of_3_similar_words(trie_3):
         assert trie_3.contains(word)
 
 
+def test_contains_finds_word_one_letter_different(empty_trie):
+    """If word is one letter less than another in trie and not in trie, it
+    should not be found."""
+    empty_trie.insert('apples')
+    assert not empty_trie.contains('apple')
+
+
 def test_partial_match_returns_false(trie_3):
     """If word is partial match of another word, contains returns false."""
     assert not trie_3.contains('pots')
@@ -96,3 +104,29 @@ def test_size_method_returns_actual_size(empty_trie):
     for i in range(1, 51):
         empty_trie.insert(FAKE.word())
         assert empty_trie.size() == i
+        
+
+def test_remove_not_string_raises_error(trie_3):
+    """A non string passed to remove should raise type error."""
+    with pytest.raises(TypeError):
+        trie_3.remove(1)
+
+
+def test_remove_error_if_no_string(trie_3):
+    """If word not in trie, remove raises Value Error."""
+    with pytest.raises(ValueError):
+        trie_3.remove('banana')
+
+
+def test_remove_word_removes_word(trie_3):
+    """If word in trie remove should remove it."""
+    trie_3.remove('potato')
+    with pytest.raises(ValueError):
+        trie_3.remove('potato')
+
+
+def test_remove_word_that_doesnt_share_root_node_with_another(empty_trie):
+    """If 2 words in trie and they don't start with same letter."""
+    empty_trie.insert('broom')
+    empty_trie.insert('bananas')
+    assert not empty_trie.remove('bananas')
