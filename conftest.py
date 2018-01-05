@@ -180,7 +180,7 @@ def empty_trie():
 
 @pytest.fixture
 def trie_3():
-    from trie import Trie
     """Create trie with 3 words passed in iterable."""
+    from trie import Trie
     t = Trie(['potato', 'potatoes', 'pot'])
     return t

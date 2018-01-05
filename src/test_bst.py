@@ -70,7 +70,7 @@ def test_insert_value_into_emtpy_bst_creates_root_node_with_value_inerted():
 def test_insert_value_already_in_bst_raises_value_error(filled_bst):
     """Test that a value error is raised when inserting a value already in tree."""
     with pytest.raises(ValueError):
-        filled_bst.insert(13)
+        filled_bst.insert(9)
 
 
 def test_insert_value_less_than_root_value_creates_left_node_child():

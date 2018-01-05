@@ -3,6 +3,7 @@ from trie import Trie
 from faker import Faker
 import pytest
 
+
 FAKE = Faker()
 
 
